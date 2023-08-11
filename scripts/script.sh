@@ -1,0 +1,1 @@
+truffle migrate --f 2 --to 2 --network baseTestnet && truffle exec --network baseTestnet ./scripts/script_1.js

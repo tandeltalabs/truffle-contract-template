@@ -21,15 +21,15 @@ contract CloudbasePresale is Ownable, ReentrancyGuard {
     // General
     bool public isPause;
 
-    uint256 public price = 68350000000000; // 0.0125 = x80
-    uint256 public minBuy = 3417500000000000; // 0.001
-    uint256 public maxBuy = 34175000000000000; // 150
-    uint256 public maxAllocation = 2563125000000000000; // CORE
+    uint256 public price = 8099352052000;
+    uint256 public minBuy = 2697084233000000; 
+    uint256 public maxBuy = 269983801300000000;
+    uint256 public maxAllocation = 303725702000000000;
     uint256 public totalOfPaid; // User paid
     uint256 public totalOfUserWhitelist;
 
     // Token
-    ERC20 public coredogeToken; // $CDC
+    ERC20 public cloudToken; // $CDC
 
     // Time
     // Buy: Stake USDT
@@ -53,10 +53,10 @@ contract CloudbasePresale is Ownable, ReentrancyGuard {
 
     constructor(
         address _idoOwner,
-        address _coredogeToken
+        address _cloudToken
     ) {
         idoOwner = _idoOwner;
-        coredogeToken = ERC20(_coredogeToken);
+        cloudToken = ERC20(_cloudToken);
 
         isPause = false; // Mark pause if deploy
     }
@@ -146,9 +146,8 @@ contract CloudbasePresale is Ownable, ReentrancyGuard {
         require(_amount > 0, "Amount must be greater than zero");
         require(whitelistMap[msg.sender] == true, "You are not in whitelist");
         require(totalOfPaid + _amount <= maxAllocation, "Full buy slot");
-        require(currentPaid + _amount <= maxBuy, "Max buy error");
-        require(_amount >= minBuy, "Min buy is invalid");
-        require(_amount <= maxBuy, "Max buy is invalid");
+        require(currentPaid + _amount <= maxBuy, "Max buy is invalid");
+        require(currentPaid + _amount >= minBuy, "Min buy is invalid");
 
         paidIdoMap[msg.sender] = currentPaid.add(_amount);
         vestingMap[msg.sender] = 0;
@@ -177,7 +176,7 @@ contract CloudbasePresale is Ownable, ReentrancyGuard {
         uint256 amountClaim = currentPercentVesting.mul(tokenPaid).div(100);
         
         vestingAmountMap[msg.sender] += amountClaim;
-        coredogeToken.safeTransfer(msg.sender, amountClaim);
+        cloudToken.safeTransfer(msg.sender, amountClaim);
 
         emit EventUserClaim(msg.sender, amountClaim, block.timestamp);
     }
@@ -188,9 +187,9 @@ contract CloudbasePresale is Ownable, ReentrancyGuard {
 
     //Withdraw all $CDC token from contract to idoOwner
     function urgentWithdrawAllToken() public onlyOwner {
-        uint256 balance = coredogeToken.balanceOf(address(this));
+        uint256 balance = cloudToken.balanceOf(address(this));
         if (balance > 0) {
-            coredogeToken.safeTransfer(idoOwner, balance);
+            cloudToken.safeTransfer(idoOwner, balance);
         }
     }
 
