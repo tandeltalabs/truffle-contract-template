@@ -21,15 +21,15 @@ contract CloudbasePresale is Ownable, ReentrancyGuard {
     // General
     bool public isPause;
 
-    uint256 public price = 8099352052000;
-    uint256 public minBuy = 2697084233000000; 
-    uint256 public maxBuy = 269983801300000000;
-    uint256 public maxAllocation = 303725702000000000;
+    uint256 public price = 123456; //1 eth = x123456 cloud
+    uint256 public minBuy = 2697300000000000; 
+    uint256 public maxBuy = 270005400000000000;
+    uint256 public maxAllocation = 303750000000000000;
     uint256 public totalOfPaid; // User paid
     uint256 public totalOfUserWhitelist;
 
     // Token
-    ERC20 public cloudToken; // $CDC
+    ERC20 public cloudToken; // $Cloud
 
     // Time
     // Buy: Stake USDT
@@ -172,7 +172,7 @@ contract CloudbasePresale is Ownable, ReentrancyGuard {
         vestingMap[msg.sender] = currentIndexVesting + 1;
 
         // Actual received = amount purchase * price
-        uint256 tokenPaid = paidIdoMap[msg.sender].mul(1 ether).div(price);
+        uint256 tokenPaid = paidIdoMap[msg.sender] * price;
         uint256 amountClaim = currentPercentVesting.mul(tokenPaid).div(100);
         
         vestingAmountMap[msg.sender] += amountClaim;
@@ -185,7 +185,7 @@ contract CloudbasePresale is Ownable, ReentrancyGuard {
         return vestingMap[_account];
     }
 
-    //Withdraw all $CDC token from contract to idoOwner
+    //Withdraw all $Cloud token from contract to idoOwner
     function urgentWithdrawAllToken() public onlyOwner {
         uint256 balance = cloudToken.balanceOf(address(this));
         if (balance > 0) {
