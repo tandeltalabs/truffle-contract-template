@@ -21,15 +21,15 @@ contract CloudbasePresale is Ownable, ReentrancyGuard {
     // General
     bool public isPause;
 
-    uint256 public priceEthPerCloud = 123200; //1 Eth = 125,666 Cloud
-    uint256 public minBuy = 2702922077922080; 
-    uint256 public maxBuy = 270568181818182000;
-    uint256 public maxAllocation = 20292207792207800000; // HardCap
+    uint256 public priceEthPerToken = 667500; //
+    uint256 public minBuy = 11985018726591800; 
+    uint256 public maxBuy = 299625468164794000;
+    uint256 public maxAllocation = 11985018726591800000; // HardCap
     uint256 public totalOfPaid; // User paid
     uint256 public totalOfUserWhitelist;
 
     // Token
-    ERC20 public cloudToken; // $Cloud
+    ERC20 public wooflabToken; // $WOOFLAB
 
     // Time
     // Buy: Stake USDT
@@ -56,7 +56,7 @@ contract CloudbasePresale is Ownable, ReentrancyGuard {
         address _cloudToken
     ) {
         idoOwner = _idoOwner;
-        cloudToken = ERC20(_cloudToken);
+        wooflabToken = ERC20(_cloudToken);
 
         isPause = false; // Mark pause if deploy
     }
@@ -172,11 +172,11 @@ contract CloudbasePresale is Ownable, ReentrancyGuard {
         vestingMap[msg.sender] = currentIndexVesting + 1;
 
         // Actual received = amount purchase * price
-        uint256 tokenPaid = paidIdoMap[msg.sender] * priceEthPerCloud;
+        uint256 tokenPaid = paidIdoMap[msg.sender] * priceEthPerToken;
         uint256 amountClaim = currentPercentVesting.mul(tokenPaid).div(100);
         
         vestingAmountMap[msg.sender] += amountClaim;
-        cloudToken.safeTransfer(msg.sender, amountClaim);
+        wooflabToken.safeTransfer(msg.sender, amountClaim);
 
         emit EventUserClaim(msg.sender, amountClaim, block.timestamp);
     }
@@ -187,9 +187,9 @@ contract CloudbasePresale is Ownable, ReentrancyGuard {
 
     //Withdraw all $Cloud token from contract to idoOwner
     function urgentWithdrawAllToken() public onlyOwner {
-        uint256 balance = cloudToken.balanceOf(address(this));
+        uint256 balance = wooflabToken.balanceOf(address(this));
         if (balance > 0) {
-            cloudToken.safeTransfer(idoOwner, balance);
+            wooflabToken.safeTransfer(idoOwner, balance);
         }
     }
 

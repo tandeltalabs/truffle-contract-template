@@ -63,7 +63,7 @@ module.exports = {
   api_keys: {
     'bscscan': bscApiKey,
     'goerli_basescan': 'NOTNEEDAPIKEY',
-    'basescan': BASESCAN_API_KEY,
+    // 'basescan': '',
   },
   networks: {
     baseMainnet: {
