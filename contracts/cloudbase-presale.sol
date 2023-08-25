@@ -21,10 +21,10 @@ contract CloudbasePresale is Ownable, ReentrancyGuard {
     // General
     bool public isPause;
 
-    uint256 public price = 123456; //1 eth = x123456 cloud
-    uint256 public minBuy = 2697300000000000; 
-    uint256 public maxBuy = 270005400000000000;
-    uint256 public maxAllocation = 303750000000000000;
+    uint256 public priceEthPerCloud = 123200; //1 Eth = 125,666 Cloud
+    uint256 public minBuy = 2702922077922080; 
+    uint256 public maxBuy = 270568181818182000;
+    uint256 public maxAllocation = 20292207792207800000; // HardCap
     uint256 public totalOfPaid; // User paid
     uint256 public totalOfUserWhitelist;
 
@@ -33,8 +33,8 @@ contract CloudbasePresale is Ownable, ReentrancyGuard {
 
     // Time
     // Buy: Stake USDT
-    uint256 public startBuyTime = 1691634600;
-    uint256 public endBuyTime = 1691635500;
+    uint256 public startBuyTime = 1692003000;
+    uint256 public endBuyTime = 1692004200;
 
     // Struct
     // Vesting
@@ -172,7 +172,7 @@ contract CloudbasePresale is Ownable, ReentrancyGuard {
         vestingMap[msg.sender] = currentIndexVesting + 1;
 
         // Actual received = amount purchase * price
-        uint256 tokenPaid = paidIdoMap[msg.sender] * price;
+        uint256 tokenPaid = paidIdoMap[msg.sender] * priceEthPerCloud;
         uint256 amountClaim = currentPercentVesting.mul(tokenPaid).div(100);
         
         vestingAmountMap[msg.sender] += amountClaim;

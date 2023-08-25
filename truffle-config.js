@@ -62,9 +62,18 @@ module.exports = {
   ],
   api_keys: {
     'bscscan': bscApiKey,
-    'goerli_basescan': 'NOTNEEDAPIKEY'
+    'goerli_basescan': 'NOTNEEDAPIKEY',
+    'basescan': BASESCAN_API_KEY,
   },
   networks: {
+    baseMainnet: {
+      provider: () => new HDWalletProvider(privateKey, `https://mainnet.base.org`),
+      network_id: 8453,
+      gas: 5500000,
+      confirmations: 2,
+      timeoutBlocks: 200,
+      skipDryRun: true
+    },
     baseTestnet: {
       provider: () => new HDWalletProvider(privateKey, `https://base-goerli.public.blastapi.io`),
       network_id: 84531,       // Goerli's id

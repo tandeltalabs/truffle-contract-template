@@ -1,6 +1,8 @@
 const cloudbasePresaleContract = artifacts.require('CloudbasePresale');
 const owner = '0x288EdC0c61EB188CF6481b04a6fD66D74E027e43';
 const cloud = '0xfE86E26F270a2286057Ed38D514Ce72dE806f298';
+const cloudContract = artifacts.require('Cloud');
+
 const { execSync, exec } = require('node:child_process');
 
 module.exports =  function (deployer, network, accounts) {
