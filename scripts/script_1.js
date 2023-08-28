@@ -1,10 +1,12 @@
+const { PRESALE_CONTRACT } = require('../constant/index');
+
 function getTimestamp(DateString) {
     return Math.floor(new Date(DateString).getTime()/1000);
 }
 
 module.exports = async function main(callback) {
     try {
-        const  CloudbasePresale = artifacts.require('CloudbasePresale');
+        const  CloudbasePresale = artifacts.require(PRESALE_CONTRACT);
         const cloudbasePresale = await CloudbasePresale.deployed();
 //         const rawWhiteList = 
 //         `0x11a06d39524947ff4d42ec2346f5dC25Fda4aAAE
@@ -21,8 +23,8 @@ module.exports = async function main(callback) {
 
 //         await cloudbasePresale.setWhitelist(whiteLists);
 
-        const startTime = getTimestamp('Fridays August 25, 2023 10:30');
-        const endTime = startTime + 40 * 60;
+        const startTime = getTimestamp('Mon, August 28, 2023 13:50:00');
+        const endTime = startTime + 30 * 60;
 
         // set time buy 
         await cloudbasePresale.setBuyTime(startTime, endTime);

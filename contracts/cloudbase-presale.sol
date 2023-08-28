@@ -7,13 +7,12 @@ import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 
-contract CloudbasePresale is Ownable, ReentrancyGuard {
+contract WOOFLABPresale is Ownable, ReentrancyGuard {
     using SafeMath for uint256;
     using SafeERC20 for ERC20;
 
     // Wallet
     address public idoOwner;
-    mapping(address => bool) public whitelistMap;
     mapping(address => uint256) public paidIdoMap;
     mapping(address => uint256) public vestingMap;
     mapping(address => uint256) public vestingAmountMap;
@@ -21,20 +20,19 @@ contract CloudbasePresale is Ownable, ReentrancyGuard {
     // General
     bool public isPause;
 
-    uint256 public priceEthPerToken = 667500; //
-    uint256 public minBuy = 11985018726591800; 
-    uint256 public maxBuy = 299625468164794000;
-    uint256 public maxAllocation = 11985018726591800000; // HardCap
+    uint256 public priceEthPerToken = 664100; //
+    uint256 public minBuy = 12046378557446167; 
+    uint256 public maxBuy = 903478391808462600;
+    uint256 public maxAllocation = 12046378557446168000; // HardCap
     uint256 public totalOfPaid; // User paid
-    uint256 public totalOfUserWhitelist;
 
     // Token
     ERC20 public wooflabToken; // $WOOFLAB
 
     // Time
     // Buy: Stake USDT
-    uint256 public startBuyTime = 1692003000;
-    uint256 public endBuyTime = 1692004200;
+    uint256 public startBuyTime = 1693224000;
+    uint256 public endBuyTime = 1693483200;
 
     // Struct
     // Vesting
@@ -53,10 +51,10 @@ contract CloudbasePresale is Ownable, ReentrancyGuard {
 
     constructor(
         address _idoOwner,
-        address _cloudToken
+        address _wooflabToken
     ) {
         idoOwner = _idoOwner;
-        wooflabToken = ERC20(_cloudToken);
+        wooflabToken = ERC20(_wooflabToken);
 
         isPause = false; // Mark pause if deploy
     }
@@ -108,36 +106,6 @@ contract CloudbasePresale is Ownable, ReentrancyGuard {
 
     function setTotalOfSlot(uint256 _maxAllocation) public onlyOwner {
         maxAllocation = _maxAllocation;
-    }
-
-    function setIdoConfig(
-            uint256 _startBuyTime,
-            uint256 _endBuyTime
-
-        ) public onlyOwner {
-        
-        startBuyTime = _startBuyTime;
-        endBuyTime = _endBuyTime;
-    }
-
-    // Set whitelist
-    function setWhitelist(address[] calldata userList) public onlyOwner {
-        for (uint256 index = 0; index < userList.length; index++) {
-            whitelistMap[userList[index]] = true;
-            totalOfUserWhitelist++;
-        }
-    }
-
-    function removeWhitelist(address[] calldata userList) public onlyOwner {
-        for (uint256 index = 0; index < userList.length; index++) {
-            if (whitelistMap[userList[index]]) {
-                whitelistMap[userList[index]] = false;
-                if (totalOfUserWhitelist > 0) {
-                    totalOfUserWhitelist--;
-                }
-
-            }
-        }
     }
 
     function buyPresale() public validBuyTime nonReentrant isRun payable {
