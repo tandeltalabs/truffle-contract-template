@@ -112,7 +112,6 @@ contract WOOFLABPresale is Ownable, ReentrancyGuard {
         uint256 _amount = msg.value;
         uint256 currentPaid = paidIdoMap[msg.sender];
         require(_amount > 0, "Amount must be greater than zero");
-        // require(whitelistMap[msg.sender] == true, "You are not in whitelist");
         require(totalOfPaid + _amount <= maxAllocation, "Full buy slot");
         require(currentPaid + _amount <= maxBuy, "Max buy is invalid");
         require(currentPaid + _amount >= minBuy, "Min buy is invalid");
@@ -125,7 +124,6 @@ contract WOOFLABPresale is Ownable, ReentrancyGuard {
     }
 
     function claimPresale() public nonReentrant isRun {
-        // require(whitelistMap[msg.sender] == true, "You are not whitelist before");
         require(paidIdoMap[msg.sender] > 0, "You are not paid before");
         uint256 currentIndexVesting = vestingMap[msg.sender];
         
